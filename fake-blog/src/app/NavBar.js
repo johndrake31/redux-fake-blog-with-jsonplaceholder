@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAuth } from '../features/auth/authSlice';
 import { useHistory } from 'react-router-dom';
@@ -26,19 +26,33 @@ export const NavBar = () => {
     const logoutHandler = () => {
         dispatch(logoutAuth());
     };
+    const createPostHandler = () => {
+        history.push('/create-post');
+    };
+
+    const LoggedIn = () => {
+        return (
+            <>
+                <Button color="inherit" onClick={logoutHandler}>
+                    Logout
+                </Button>
+                <Button color="inherit" onClick={createPostHandler}>
+                    Create Post
+                </Button>
+            </>
+        )
+    }
 
     return (
         <AppBar position="static">
             <Toolbar>
                 <Button onClick={goHome} variant="h6" component="div" >
-                <HomeIcon/>
+                    <HomeIcon />
                 </Button>
                 {/* create a home icon with a home route */}
-               
+
                 {auth ? (
-                    <Button color="inherit" onClick={logoutHandler}>
-                        Logout
-                    </Button>
+                    LoggedIn()
                 ) : (
                     <Button color="inherit" onClick={loginHandler}>
                         Login

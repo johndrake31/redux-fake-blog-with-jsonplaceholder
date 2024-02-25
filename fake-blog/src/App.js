@@ -8,10 +8,10 @@ import {
   Redirect,
 } from "react-router-dom";
 import PostsList  from "./features/posts/PostsList";
-import PostsForm from "./features/posts/PostsForm";
-import UsersList from "./features/users/UsersList";
 import FakeLogin from "./features/auth/FakeLogin";
 import NavBar from "./app/NavBar";
+import PostsForm from "./features/posts/PostsForm";
+import AuthWrapper from "./features/auth/AuthWrapper";
 
 function App() {
   return (
@@ -40,6 +40,24 @@ function App() {
                 <>
                   <FakeLogin />
                 </>
+              )}
+            />
+            <Route
+              exact
+              path="/edit-posts/:postId"
+              render={() => (
+                <AuthWrapper>
+                  <PostsForm />
+                </AuthWrapper>
+              )}
+            />
+            <Route
+              exact
+              path="/create-post"
+              render={() => (
+                <AuthWrapper>
+                  <PostsForm />
+                </AuthWrapper>
               )}
             />
             <Redirect to="/" />

@@ -9,3 +9,5 @@ export const AuthWrapper = ({ children }) => {
     const auth = useSelector((state) => state.auth.login);
     return <>{auth ? children : <Redirect to="/login" />}</>;
 }
+
+export default AuthWrapper;

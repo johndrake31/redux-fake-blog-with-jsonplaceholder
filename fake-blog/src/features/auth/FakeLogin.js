@@ -19,7 +19,7 @@ const FakeLogin = () => {
         if (auth) {
             history.push('/');
         }
-    }, [auth]);
+    }, [auth, history]);
 
     const submitFormHandler = () => {
         const email = emailRef.current.value;
@@ -30,6 +30,7 @@ const FakeLogin = () => {
     return (
         <>
             <h1>Login</h1>
+            <p>Sincere@april.biz</p>
             <Container maxWidth="sm">
                 <Box sx={{
                     height: "95%",

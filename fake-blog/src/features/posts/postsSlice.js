@@ -29,6 +29,18 @@ export const addPost = createAsyncThunk(
   }
 );
 
+export const editPost = createAsyncThunk(
+  'posts/editPost',
+  async (postData) => {  
+    try {
+      const response = await client.post('/posts', postData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const postsSlice = createSlice({
   // createSlice is a function that takes an object with three fields: name, initialState, and reducers
   name: "posts",
@@ -64,7 +76,27 @@ const postsSlice = createSlice({
       .addCase(addPost.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      });
+      })
+      .addCase(editPost.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(editPost.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        // replace edited post in the posts array
+        const { id, title, body, userId } = action.payload;
+        const existingPost = state.posts.find((post) => post.id === id);
+        if (existingPost) {
+          existingPost.title = title;
+          existingPost.body = body;
+          existingPost.userId = userId;
+        }}
+      )
+      .addCase(editPost.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+        
+      })
+
       
   },
 });
