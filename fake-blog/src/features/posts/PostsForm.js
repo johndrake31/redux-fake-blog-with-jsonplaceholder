@@ -4,7 +4,7 @@ import React, {
 } from "react";
 import { Container, Box, Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "./postsSlice";
+import { addPost, editPost } from "./postsSlice";
 import { useParams } from 'react-router-dom';
 import client from "../../api/client";
 
@@ -35,9 +35,10 @@ const PostsForm = () => {
 
     // TODO: CREATE A POST EDIT AND POST CREATION CONDTIONAL
     const submitFormHandler = () => {
+       
         const title = titleRef.current.value;
         const body = contentRef.current.value;
-        dispatch(addPost({ userId: authUserId, title, body }))
+        dispatch(!postId? addPost({ userId: authUserId, title, body }): editPost({ id: postId, userId: authUserId, title, body }));
         // error handling
 
     }

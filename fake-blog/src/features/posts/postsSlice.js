@@ -21,11 +21,10 @@ export const fetchPosts = createAsyncThunk(
 export const addPost = createAsyncThunk(
   'posts/addPost',
   async (postData) => {
-    // add a unique id to post data
-    postData.id = nanoid();
     
     try {
       const response = await client.post('/posts', postData);
+      
       return response.data;
     } catch (error) {
       throw error;
@@ -38,6 +37,7 @@ export const editPost = createAsyncThunk(
   async (postData) => {  
     try {
       const response = await client.post('/posts', postData);
+
       return response.data;
     } catch (error) {
       throw error;

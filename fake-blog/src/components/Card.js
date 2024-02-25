@@ -45,7 +45,7 @@ export const CustomCard = ({ post }) => {
         </Typography>
         <Typography variant="body1">{body}</Typography>
         <br />
-        <Typography variant="caption">{format(new Date(date), "EE MM/yyyy")}</Typography>
+        {date && <Typography variant="caption">{format(new Date(date), "EE MM/yyyy")}</Typography>}
       </CardContent>
     </Card>
   );
