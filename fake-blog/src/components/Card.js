@@ -3,9 +3,10 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import { format } from "date-fns";
 
 export const CustomCard = ({ post }) => {
-  const { title, body, userId, id } = post;
+  const { title, body, userId, id, date } = post;
   const auth = useSelector((state) => state.auth.login);
   const authUserId = useSelector((state) => state.auth.user[0].id);
   const history = useHistory();
@@ -42,7 +43,9 @@ export const CustomCard = ({ post }) => {
         <Typography variant="h4" sx={{ marginBottom: 5 }}>
           {title}
         </Typography>
-        <Typography>{body}</Typography>
+        <Typography variant="body1">{body}</Typography>
+        <br />
+        <Typography variant="caption">{format(new Date(date), "EE MM/yyyy")}</Typography>
       </CardContent>
     </Card>
   );

@@ -27,7 +27,8 @@ export const PostsList = () => {
     if (status === "loading") {
         content = <div className="loader">Loading...</div>;
     } else if (status === "succeeded") {
-        content = posts.map((post) => (
+        const sortedPosts = posts.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+        content = sortedPosts.map((post) => (
             <Card post={post} key={post.id}/>
         ));
     } else if (status === "error") {

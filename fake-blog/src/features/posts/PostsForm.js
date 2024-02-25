@@ -10,7 +10,6 @@ import client from "../../api/client";
 
 const PostsForm = () => {
     const [post, setPost] = useState(null);
-    const auth = useSelector((state) => state.auth.login);
     const authUserId = useSelector((state) => state.auth.user[0].id);
     const dispatch = useDispatch();
     const titleRef = useRef(null);

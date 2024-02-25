@@ -8,11 +8,9 @@ export const fetchPosts = createAsyncThunk(
   async () => {
     try {
       const response = await client.get('/posts');
-      console.log(response.data)
       response.data.forEach((post) => {
-        post.date = getRandomDateWithinRange(80, 0).toDateString();
+        post.date = getRandomDateWithinRange(80, 0).toISOString();
       });
-      console.log(response.data)
       return response.data;
     } catch (error) {
       throw error;

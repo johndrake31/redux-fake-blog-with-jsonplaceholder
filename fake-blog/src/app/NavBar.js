@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AppBar, Toolbar, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAuth } from '../features/auth/authSlice';
@@ -9,9 +9,6 @@ export const NavBar = () => {
     const history = useHistory();
     const auth = useSelector(state => state.auth.login);
 
-    useEffect(() => {
-        console.log(auth);
-    }, [auth]);
 
 
 
