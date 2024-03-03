@@ -5,12 +5,13 @@ import { useHistory } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { format } from "date-fns";
 
+
+// TODO: ADD USER NAME TO POSTS AND DISPLAY IT
 export const CustomCard = ({ post }) => {
   const { title, body, userId, id, date } = post;
   const auth = useSelector((state) => state.auth.login);
   const authUserId = useSelector((state) => state.auth.user[0].id);
   const history = useHistory();
-
 
 
   const navToEditPostHandler = () => {

@@ -1,59 +1,59 @@
-import React, {
-    useEffect,
-    useRef, useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Container, Box, Button, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, editPost } from "./postsSlice";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import client from "../../api/client";
+import { useHistory } from "react-router-dom";
 
 const PostsForm = () => {
     const [post, setPost] = useState(null);
     const authUserId = useSelector((state) => state.auth.user[0].id);
+    const status = useSelector((state) => state.posts.status);
     const dispatch = useDispatch();
     const titleRef = useRef(null);
     const contentRef = useRef(null);
     const { postId } = useParams();
-
-
+    const oldPost = useSelector((state) => state.posts.posts.find((post) => post.id === +postId));
+    const history = useHistory();
 
     useEffect(() => {
-        const getPost = async () => {
-            try {
-                const response = await client.get(`/posts/${postId}`);
-                setPost(response.data);
-            } catch (error) {
-                console.error(error);
+        if (postId) {
+            if (oldPost) {
+                setPost(oldPost);
+            } else {
+                client.get(`/posts/${postId}`).then((response) => {
+                    setPost(response.data);
+                });
             }
         }
+    }, [postId, oldPost]);
 
-        if (postId) {
-            getPost();
-        }
-    }, [postId]);
-
-    // TODO: CREATE A POST EDIT AND POST CREATION CONDTIONAL
     const submitFormHandler = () => {
-       
         const title = titleRef.current.value;
         const body = contentRef.current.value;
-        dispatch(!postId? addPost({ userId: authUserId, title, body }): editPost({ id: postId, userId: authUserId, title, body }));
-        // error handling
+        dispatch(
+            postId
+                ? editPost({ id: postId, userId: authUserId, title, body })
+                : addPost({ userId: authUserId, title, body })
+        );
+        if (status === "succeeded") history.push("/");
+    };
 
-    }
     return (
         <>
-            <h1>{postId ? 'Edit Post #' + postId : 'Create Post'}</h1>
+            <h1>{postId ? "Edit Post #" + postId : "Create Post"}</h1>
             <Container maxWidth="sm">
-                <Box sx={{
-                    height: "95%",
-                    paddingY: 5,
-                    display: "flex",
-                    flexDirection: 'column',
-                    border: "3px solid black",
-                    borderRadius: 5,
-                }}>
+                <Box
+                    sx={{
+                        height: "95%",
+                        paddingY: 5,
+                        display: "flex",
+                        flexDirection: "column",
+                        border: "3px solid black",
+                        borderRadius: 5,
+                    }}
+                >
                     <Box sx={{ marginBottom: 5 }}>
                         <TextField
                             inputRef={titleRef}
@@ -76,12 +76,18 @@ const PostsForm = () => {
                             variant="outlined"
                             defaultValue={post ? post.body : ""}
                             InputLabelProps={{ shrink: true }}
-
                         />
                     </Box>
                     <Box>
-                        <Button variant="outlined" onClick={submitFormHandler}>Submit</Button>
+                        <Button variant="outlined" onClick={submitFormHandler}>
+                            Submit
+                        </Button>
                     </Box>
+                    {status === "error" && (
+                        <Box sx={{ color: "red", marginTop: 5 }} >
+                            Error occurred while submitting the form. Try again.
+                        </Box>
+                    )}
                 </Box>
             </Container>
         </>

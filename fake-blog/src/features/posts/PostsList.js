@@ -6,14 +6,13 @@ import Card from "../../components/Card";
 import { Typography } from "@mui/material";
 
 
-
-
 export const PostsList = () => {
+
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts.posts);
     const status = useSelector((state) => state.posts.status);
     const error = useSelector((state) => state.posts.error);
-
+    
     let content;
 
 
